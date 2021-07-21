@@ -24,8 +24,7 @@ jobs:
         
       - name: Install virtualenv & pyinstaller
         run: |
-          echo ${GITHUB_REF}
-          echo ${github.event.release.tag_name}
+          echo "${{github.ref}}"
 #          python -m pip install --upgrade pip
 #          pip install virtualenv
 #          pip install pyinstaller
