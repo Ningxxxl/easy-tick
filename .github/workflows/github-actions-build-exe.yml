@@ -19,26 +19,27 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
       - name: Set up Python3 
         uses: actions/setup-python@v2
         
       - name: Install virtualenv & pyinstaller
         run: |
-          python -m pip install --upgrade pip
-          pip install virtualenv
-          pip install pyinstaller
+          echo ${ GITHUB_REF }
+          echo ${ github.event.release.tag_name }
+#          python -m pip install --upgrade pip
+#          pip install virtualenv
+#          pip install pyinstaller
           
-      - name: Create and use virtualenv
-        run: |
-          virtualenv env-macos
-          source env-macos/bin/activate
-          
-      - name: Create and use virtualenv
-        run: |  
-          pip install -r requirements.txt
-        
-      - name: Package
-        run: |
-          pyinstaller --windowed -n easy-tick-windows.exe main.py
+#      - name: Create and use virtualenv
+#        run: |
+#          virtualenv env-macos
+#          source env-macos/bin/activate
+#          
+#      - name: Create and use virtualenv
+#        run: |  
+#          pip install -r requirements.txt
+#        
+#      - name: Build exe
+#        run: |
+#          pyinstaller --windowed -n easy-tick-windows main.py
 
