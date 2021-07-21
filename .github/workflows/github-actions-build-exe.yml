@@ -19,30 +19,33 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Fetch release version
-        id: fetch_tag
+      - name: Fetch release version tag
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      - name: Set up Python3 
+      - name: Set up Python3
         uses: actions/setup-python@v2
 
       - name: Install virtualenv & pyinstaller
         run: |
-          echo $RELEASE_VERSION
-#          python -m pip install --upgrade pip
-#          pip install virtualenv
-#          pip install pyinstaller
+          python -m pip install --upgrade pip
+          pip install virtualenv
+          pip install pyinstaller
           
-#      - name: Create and use virtualenv
-#        run: |
-#          virtualenv env-macos
-#          source env-macos/bin/activate
-#          
-#      - name: Create and use virtualenv
-#        run: |  
-#          pip install -r requirements.txt
-#        
-#      - name: Build exe
-#        run: |
-#          pyinstaller --windowed -n easy-tick-windows main.py
+      - name: Create and use virtualenv
+        run: |
+          virtualenv env-macos
+          source env-macos/bin/activate
+          
+      - name: Create and use virtualenv
+        run: |  
+          pip install -r requirements.txt
+        
+      - name: Build exe
+        run: |
+          pyinstaller --windowed main.py -n easy-tick
+
+      - name: Zip
+        run: |
+          zip -rq "EasyTick-macos-${ver}.zip" dist/EasyTick.app
+          echo $(ls dist)
 
