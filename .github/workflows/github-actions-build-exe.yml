@@ -46,6 +46,6 @@ jobs:
 
       - name: Zip
         run: |
-          zip -rq "EasyTick-macos-${ver}.zip" dist/EasyTick.app
+          zip -rq "EasyTick-macos-${RELEASE_VERSION}.zip" dist/EasyTick.app
           echo $(ls dist)
 
