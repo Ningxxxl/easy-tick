@@ -40,5 +40,5 @@ jobs:
         
       - name: Package
         run: |
-          pyinstaller --windowed -n easy-tick-windows.exe main
+          pyinstaller --windowed -n easy-tick-windows.exe main.py
 
