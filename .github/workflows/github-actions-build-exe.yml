@@ -1,37 +1,27 @@
-# This is a basic workflow to help you get started with Actions
-
 name: build-exe
 
-# Controls when the workflow will run
 on:
   release:
     types: [published]
-  workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build-macos:
-    # runs-on: macos-latest
+  build-exe:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # os: [macos-latest, windows-latest]
         include:
-#          - os: macos-latest
-#            OS_NAME: macos
-#            CMD_VENV: source action-env/bin/activate
-#            CMD_BUILD: pyinstaller --windowed main.py -n EasyTick
-#            CMD_ZIP: (cd dist && zip -qr easy-tick-macos.zip EasyTick.app && mv easy-tick-macos.zip ..)
+          - os: macos-latest
+            OS_NAME: macos
+            CMD_VENV: source action-env/bin/activate
+            CMD_BUILD: pyinstaller --windowed main.py -n EasyTick
+            CMD_ZIP: (cd dist && zip -qr easy-tick-macos.zip EasyTick.app && mv easy-tick-macos.zip ..)
           - os: windows-latest
             OS_NAME: windows
             CMD_VENV: .\action-env\Scripts\activate
             CMD_BUILD: pyinstaller -Fw main.py -n EasyTick
             CMD_ZIP: 7z a easy-tick-windows.zip .\dist\EasyTick.exe
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
       - name: Get Current Release
