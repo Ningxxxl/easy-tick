@@ -18,11 +18,13 @@ jobs:
       matrix:
         # os: [macos-latest, windows-latest]
         include:
-          - os: macos-latest
-            OS_NAME: macos
-            CMD_BUILD: pyinstaller --windowed main.py -n EasyTick
+#          - os: macos-latest
+#            OS_NAME: macos
+#            CMD_VENV: source action-env/bin/activate
+#            CMD_BUILD: pyinstaller --windowed main.py -n EasyTick
           - os: windows-latest
             OS_NAME: windows
+            CMD_VENV: .\action-env\Scripts\activate
             CMD_BUILD: pyinstaller -Fw main.py -n EasyTick
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -47,14 +49,14 @@ jobs:
           
       - name: Create And Use Virtualenv
         run: |
-          virtualenv env-${{ matrix.OS_NAME }}
-          source env-${{ matrix.OS_NAME }}/bin/activate
+          virtualenv action-env
+          ${{ matrix.CMD_VENV }}
           
       - name: Install Dependences
         run: pip install -r requirements.txt
         
       - name: Build EXE
-        run: ${{matrix.CMD_BUILD}}
+        run: ${{ matrix.CMD_BUILD }}
 
       - name: Zip
         run: (cd dist && zip -qr easy-tick-${{ matrix.OS_NAME }}.zip EasyTick.app)
