@@ -1,7 +1,6 @@
 # easy-tick 
 
 ![build-exe workflow](https://github.com/Ningxxxl/easy-tick/actions/workflows/github-actions-build-exe.yml/badge.svg) 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Ningxxxl/easy-tick)
 
 简单的图片打点标注
 
@@ -10,7 +9,7 @@
 3. 保存
 
 ## Download
-[Go Releases Page](https://github.com/Ningxxxl/easy-tick/releases)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Ningxxxl/easy-tick)](https://github.com/Ningxxxl/easy-tick/releases)
 
 ## Usage
 
