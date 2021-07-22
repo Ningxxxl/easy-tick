@@ -49,9 +49,11 @@ jobs:
       - name: Build EXE
         run: |
           pyinstaller --windowed main.py -n easy-tick
+          echo "$(ls dist)"
 
       - name: Zip
         run: |
+          echo "$(ls dist)"
           zip -rq "EasyTick-macos-${RELEASE_VERSION}.zip" dist/EasyTick.app
           echo $(ls dist)
 
