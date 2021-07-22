@@ -21,6 +21,9 @@ jobs:
           - os: macos-latest
             OS_NAME: macos
             CMD_BUILD: pyinstaller --windowed main.py -n EasyTick
+          - os: windows-latest
+            OS_NAME: windows
+            CMD_BUILD: pyinstaller -Fw main.py -n EasyTick
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
