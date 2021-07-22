@@ -12,7 +12,15 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build-macos:
-    runs-on: macos-latest
+    # runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # os: [macos-latest, windows-latest]
+        include:
+          - os: macos-latest
+            OS_NAME: macos
+            CMD_BUILD: pyinstaller --windowed main.py -n EasyTick
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -25,9 +33,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch Release Version Tag
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
       - name: Set Up Python3
         uses: actions/setup-python@v2
 
@@ -39,23 +44,17 @@ jobs:
           
       - name: Create And Use Virtualenv
         run: |
-          virtualenv env-macos
-          source env-macos/bin/activate
+          virtualenv env-${{ matrix.OS_NAME }}
+          source env-${{ matrix.OS_NAME }}/bin/activate
           
       - name: Install Dependences
-        run: |  
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
         
       - name: Build EXE
-        run: |
-          pyinstaller --windowed main.py -n EasyTick
-          echo "$(ls dist)"
+        run: ${{matrix.CMD_BUILD}}
 
       - name: Zip
-        run: |
-          echo "$(ls dist)"
-          zip -qrj easy-tick-macos.zip dist/EasyTick.app
-          echo $(ls dist)
+        run: zip -qrj easy-tick-${{ matrix.OS_NAME }}.zip dist/EasyTick.app
 
       - name: Upload Release Asset
         id: upload-release-asset
@@ -64,7 +63,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_current_release.outputs.upload_url }}
-          asset_path: easy-tick-macos.zip
-          asset_name: easy-tick-macos.zip
+          asset_path: easy-tick-${{ matrix.OS_NAME }}.zip
+          asset_name: easy-tick-${{ matrix.OS_NAME }}-${{ steps.get_current_release.outputs.tag_name }}.zip
           asset_content_type: application/zip
 
