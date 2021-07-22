@@ -48,7 +48,7 @@ jobs:
         
       - name: Build EXE
         run: |
-          pyinstaller --windowed main.py -n easy-tick
+          pyinstaller --windowed main.py -n EasyTick
           echo "$(ls dist)"
 
       - name: Zip
