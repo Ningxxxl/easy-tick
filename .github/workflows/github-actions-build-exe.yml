@@ -54,7 +54,7 @@ jobs:
       - name: Zip
         run: |
           echo "$(ls dist)"
-          zip -rq easy-tick-macos.zip dist/EasyTick.app
+          zip -qrj easy-tick-macos.zip dist/EasyTick.app
           echo $(ls dist)
 
       - name: Upload Release Asset
