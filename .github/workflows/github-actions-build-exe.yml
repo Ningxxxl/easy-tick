@@ -18,29 +18,35 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
+      - name: Get Current Release
+        id: get_current_release
+        uses: joutvhu/get-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch release version tag
+      - name: Fetch Release Version Tag
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      - name: Set up Python3
+      - name: Set Up Python3
         uses: actions/setup-python@v2
 
-      - name: Install virtualenv & pyinstaller
+      - name: Install Virtualenv & Pyinstaller
         run: |
           python -m pip install --upgrade pip
           pip install virtualenv
           pip install pyinstaller
           
-      - name: Create and use virtualenv
+      - name: Create And Use Virtualenv
         run: |
           virtualenv env-macos
           source env-macos/bin/activate
           
-      - name: Create and use virtualenv
+      - name: Install Dependences
         run: |  
           pip install -r requirements.txt
         
-      - name: Build exe
+      - name: Build EXE
         run: |
           pyinstaller --windowed main.py -n easy-tick
 
@@ -48,4 +54,15 @@ jobs:
         run: |
           zip -rq "EasyTick-macos-${RELEASE_VERSION}.zip" dist/EasyTick.app
           echo $(ls dist)
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_current_release.outputs.upload_url }}
+          asset_path: ./dist/EasyTick-macos-"${RELEASE_VERSION}".zip
+          asset_name: EasyTick-macos-"${RELEASE_VERSION}".zip
+          asset_content_type: application/zip
 
