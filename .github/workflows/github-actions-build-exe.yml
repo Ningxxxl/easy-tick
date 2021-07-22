@@ -54,7 +54,7 @@ jobs:
         run: ${{matrix.CMD_BUILD}}
 
       - name: Zip
-        run: zip -qrj easy-tick-${{ matrix.OS_NAME }}.zip dist/EasyTick.app
+        run: (cd dist && zip -qrj easy-tick-${{ matrix.OS_NAME }}.zip EasyTick.app)
 
       - name: Upload Release Asset
         id: upload-release-asset
@@ -63,7 +63,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_current_release.outputs.upload_url }}
-          asset_path: easy-tick-${{ matrix.OS_NAME }}.zip
+          asset_path: dist/easy-tick-${{ matrix.OS_NAME }}.zip
           asset_name: easy-tick-${{ matrix.OS_NAME }}-${{ steps.get_current_release.outputs.tag_name }}.zip
           asset_content_type: application/zip
 
