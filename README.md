@@ -1,4 +1,5 @@
-# easy-tick
+# easy-tick ![build-exe workflow](https://github.com/Ningxxxl/easy-tick/actions/workflows/github-actions-build-exe.yml/badge.svg)
+
 简单的图片打点标注
 
 1. 选择图片文件
