@@ -54,7 +54,7 @@ jobs:
       - name: Zip
         run: |
           echo "$(ls dist)"
-          zip -rq "EasyTick-macos-${RELEASE_VERSION}.zip" dist/EasyTick.app
+          zip -rq easy-tick-macos.zip dist/EasyTick.app
           echo $(ls dist)
 
       - name: Upload Release Asset
@@ -64,7 +64,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_current_release.outputs.upload_url }}
-          asset_path: ./dist/EasyTick-macos-"${RELEASE_VERSION}".zip
-          asset_name: EasyTick-macos-"${RELEASE_VERSION}".zip
+          asset_path: dist/easy-tick-macos.zip
+          asset_name: easy-tick-macos.zip
           asset_content_type: application/zip
 
