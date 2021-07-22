@@ -54,7 +54,7 @@ jobs:
         run: ${{matrix.CMD_BUILD}}
 
       - name: Zip
-        run: (cd dist && zip -qrj easy-tick-${{ matrix.OS_NAME }}.zip EasyTick.app)
+        run: (cd dist && zip -qr easy-tick-${{ matrix.OS_NAME }}.zip EasyTick.app)
 
       - name: Upload Release Asset
         id: upload-release-asset
