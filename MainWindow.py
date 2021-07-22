@@ -72,7 +72,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         custom_filename, _ = QFileDialog.getSaveFileName(self, "保存文件", filename, "Text Files (*.png)")
         if custom_filename and len(self.__url) > 0:
             # print(custom_filename)
-            cv2.imwrite(custom_filename, self.__combinedImg)
+            # cv2.imwrite(custom_filename, self.__combinedImg)
+            cv2.imencode('.png', self.__combinedImg)[1].tofile(custom_filename)
             QMessageBox.about(self, "Title", "文件已保存在：{}".format(custom_filename))
 
     def show_pic_in_label(self, img):
