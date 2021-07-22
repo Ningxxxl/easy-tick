@@ -27,7 +27,7 @@ jobs:
             OS_NAME: windows
             CMD_VENV: .\action-env\Scripts\activate
             CMD_BUILD: pyinstaller -Fw main.py -n EasyTick
-            CMD_ZIP: 7z a easy-tick-${{ matrix.OS_NAME }}.zip EasyTick.exe
+            CMD_ZIP: 7z a easy-tick-${{ matrix.OS_NAME }}.zip .\dist\EasyTick.exe
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
