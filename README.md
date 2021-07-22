@@ -5,6 +5,8 @@
 2. 点击图标进行标注
 3. 保存
 
+## Download
+[Gp Releases Page](/releases)
 
 ## Usage
 
