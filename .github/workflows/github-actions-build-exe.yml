@@ -22,7 +22,7 @@ jobs:
 #            OS_NAME: macos
 #            CMD_VENV: source action-env/bin/activate
 #            CMD_BUILD: pyinstaller --windowed main.py -n EasyTick
-#            CMD_ZIP: (cd dist && zip -qr easy-tick-macos.zip EasyTick.app)
+#            CMD_ZIP: (cd dist && zip -qr easy-tick-macos.zip EasyTick.app && mv easy-tick-macos.zip ..)
           - os: windows-latest
             OS_NAME: windows
             CMD_VENV: .\action-env\Scripts\activate
@@ -70,7 +70,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_current_release.outputs.upload_url }}
-          asset_path: dist/easy-tick-${{ matrix.OS_NAME }}.zip
+          asset_path: easy-tick-${{ matrix.OS_NAME }}.zip
           asset_name: easy-tick-${{ matrix.OS_NAME }}-${{ steps.get_current_release.outputs.tag_name }}.zip
           asset_content_type: application/zip
 
