@@ -6,7 +6,7 @@
 3. 保存
 
 ## Download
-[Gp Releases Page](/releases)
+[Go Releases Page](https://github.com/Ningxxxl/easy-tick/releases)
 
 ## Usage
 
