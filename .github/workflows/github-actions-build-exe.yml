@@ -1,0 +1,66 @@
+name: build-exe
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-exe:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            OS_NAME: macos
+            CMD_VENV: source action-env/bin/activate
+            CMD_BUILD: pyinstaller --windowed main.py -n EasyTick
+            CMD_ZIP: (cd dist && zip -qr easy-tick-macos.zip EasyTick.app && mv easy-tick-macos.zip ..)
+          - os: windows-latest
+            OS_NAME: windows
+            CMD_VENV: .\action-env\Scripts\activate
+            CMD_BUILD: pyinstaller -Fw main.py -n EasyTick
+            CMD_ZIP: 7z a easy-tick-windows.zip .\dist\EasyTick.exe
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Get Current Release
+        id: get_current_release
+        uses: joutvhu/get-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Up Python3
+        uses: actions/setup-python@v2
+
+      - name: Install Virtualenv & Pyinstaller
+        run: |
+          python -m pip install --upgrade pip
+          pip install virtualenv
+          pip install pyinstaller
+          
+      - name: Create And Use Virtualenv
+        run: |
+          virtualenv action-env
+          ${{ matrix.CMD_VENV }}
+          
+      - name: Install Dependences
+        run: pip install -r requirements.txt
+        
+      - name: Build EXE
+        run: ${{ matrix.CMD_BUILD }}
+
+      - name: Zip
+        run: ${{ matrix.CMD_ZIP }}
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_current_release.outputs.upload_url }}
+          asset_path: easy-tick-${{ matrix.OS_NAME }}.zip
+          asset_name: easy-tick-${{ matrix.OS_NAME }}-${{ steps.get_current_release.outputs.tag_name }}.zip
+          asset_content_type: application/zip
+
